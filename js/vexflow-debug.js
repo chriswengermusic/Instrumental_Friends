@@ -14528,9 +14528,7 @@ Vex.Flow.DocumentFormatter.Liquid.constructor
 Vex.Flow.DocumentFormatter.Liquid.prototype.setWidth = function(width) {
   this.width = width; return this; }
 
-//global variable to access measure positions
-var measureXValues = [];
-var measuresScaled = [];
+
 Vex.Flow.DocumentFormatter.Liquid.prototype.getBlock = function(b) {
   if (b in this.blockDimensions) return this.blockDimensions[b];
 
@@ -14613,14 +14611,10 @@ Vex.Flow.DocumentFormatter.Liquid.prototype.getBlock = function(b) {
     this.measureWidth[startMeasure] += remainingWidth; // Add remainder
     // Calculate x value for each measure
     this.measureX[startMeasure] = start_x;
-    measureXValues.push(this.measureX);
     for (var m = startMeasure + 1; m <= endMeasure; m++)
       this.measureX[m] = this.measureX[m-1] + this.measureWidth[m-1];
-    measureXValues.push(this.measureX[m]);
     this.blockDimensions[b] = [this.width, 0];
-    for (var g = 0; g < measureXValues[0].length; g++){
-      measuresScaled.push(measureXValues[0][g] * this.zoom * this.scale);
-    }
+
   }
 
   // Calculate height of first measure
