@@ -76,9 +76,9 @@
     height: 100px;
 }
 
-.playercontrols {
+.playerControls {
     position: absolute;
-    height: 200px;
+    height: 50%;
     width: 99%;
     font-family:Palatino Linotype;
     font-size:14px;

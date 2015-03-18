@@ -14,8 +14,8 @@ var scheduleAheadTime = 0.1;    // How far ahead to schedule audio (sec)
 var nextNoteTime = 0.0;     // when the next note is due.
 var noteResolution = 0;     // 0 == 16th, 1 == 8th, 2 == quarter note
 var noteLength;      // length of "beep" (in seconds)
-var canvas = document.getElementById('positionmarker'),                 // the canvas element
-    canvasContext;          // canvasContext is the canvas' context 2D
+var canvas = document.getElementById('positionMarker');                 // the canvas element
+var canvasContext = canvas.getContext('2d');          // canvasContext is the canvas' context 2D
 var last16thNoteDrawn = -1; // the last "box" we drew on the screen
 var notesInQueue = [];      // the notes that have been put into the web audio,
                             // and may or may not have played yet. {note, time}
@@ -598,8 +598,14 @@ function drawCursor() {
                 x = 50 * scale * zoom
             }
         }
+
     }
 }
+canvasContext.beginPath();
+canvasContext.moveTo(40, 11);
+canvasContext.lineTo(40, 95);
+canvasContext.strokeStyle = '#00FF00';
+canvasContext.stroke();
 
 
 function loadedPiano(PIANO) {
