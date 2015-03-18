@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise Player</title>
+    <meta name="viewport" content="initial-scale = 1.0, minimum-scale = 1.0, maximum-scale = 1.0, user-scalable = no">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/vexflow-debug.js"></script>
+
+    <script>
+        // source: http://stackoverflow.com/a/901144
+        function getParameter(name) {
+            name = name.replace(/\[]/, "\\\[").replace(/[\]]/, "\\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+            var results = regex.exec(window.location.search);
+            if (results == null) return undefined;
+            else return decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+        $(document).ready(function() {
+            var req = new XMLHttpRequest();
+            var uri = getParameter('doc');
+            if (!uri) uri = 'Hot_Cross_Buns.xml';
+            req.open('GET', uri, true);
+            req.onreadystatechange = function() {
+                if (req.readyState != 4) return;
+                    var doc = new Vex.Flow.Document(req.responseText);
+                    doc.getFormatter().setWidth(800).draw($("#viewer")[0]);
+            };
+
+            req.send();
+        });
+
+    </script>
+</head>
+<body>
+<div id="countOff"></div>
+<div class="container">
+    <div id="viewer">
+        <p id="waitmsg">Please wait while we contact the mother ship...</p>
+    </div>
+    <div><canvas id="positionMarker"></canvas></div>
+    <div class="playercontrols">
+        <div><a class="play" onclick="this.innerHTML = play();">play</a></div>
+        <div class="playercontrols" id="tempoBox">Tempo: <span id="showTempo">86</span>BPM <input class="playercontrols" id="tempo" type="range" min="54.0" max="160.0" step="1" value="86" style="height: 10px; width: 100px" onInput="tempo = event.target.value; document.getElementById('showTempo').innerHTML=tempo;"></div>
+        </br><div class="playercontrols" id="pianoVolume">Piano Volume: <span id="pLevel">0</span><input class="playercontrols" id="pianoLevel" type="range" min="0" max="1" step="any" value="1" style="height: 5px; width: 50px" onInput="pianoLevel = event.target.value;">10</div>
+        <div class="playercontrols" id="drumsVolume">Drums Volume: <span id="dLevel">0</span><input class="playercontrols" id="drumsLevel" type="range" min="0" max="1" step="any" value="1" style="height: 5px; width: 50px" onInput="drumsLevel = event.target.value;">10</div>
+    </div>
+</div>
+<script src="js/audioPlayer2.js"></script>
+<script src="http://cwilso.github.io/AudioContext-MonkeyPatch/AudioContextMonkeyPatch.js"></script>
+<script>
+    /*var canvas = document.getElementById("positionMarker");
+    var context = canvas.getContext('2d');
+
+    context.beginPath();
+    context.moveTo(10 + 324.8, 11);
+    context.lineTo(10 + 324.8, 95);
+    context.strokeStyle = '#00FF00';
+    context.stroke();
+*/
+</script>
+</body>
+</html>
