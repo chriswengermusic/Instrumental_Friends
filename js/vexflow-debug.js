@@ -14680,7 +14680,7 @@ Vex.Flow.DocumentFormatter.Liquid.prototype.draw = function(elem, options) {
     var canvas, context;
     var dims = this.blockDimensions[b];
     var width = Math.ceil(dims[0] * this.zoom);
-    var height = Math.ceil(dims[1] * this.zoom);
+    var height = Math.ceil((dims[1] + 50) * this.zoom);
     if (! this.canvases[b]) {
       canvas = document.createElement('canvas');
       canvas.width = width * this.scale;
