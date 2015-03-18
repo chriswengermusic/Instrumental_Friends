@@ -111,7 +111,11 @@
      font-color: #666666;
      text-align: center;
  }
- #positionmarker {
+ #positionMarker {
+     position: absolute;
      background-color: #FFFFFF;
+     width: 99%;
+     margin: 0 auto;
+     height: 125px;
+     overflow: hidden;
  }
-
