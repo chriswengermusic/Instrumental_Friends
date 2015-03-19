@@ -14,7 +14,11 @@ var scheduleAheadTime = 0.1;    // How far ahead to schedule audio (sec)
 var nextNoteTime = 0.0;     // when the next note is due.
 var noteResolution = 0;     // 0 == 16th, 1 == 8th, 2 == quarter note
 var noteLength;      // length of "beep" (in seconds)
-var canvas = document.getElementById('positionMarker');                 // the canvas element
+var canvas = document.createElement('canvas');
+                    // the canvas element
+canvas.id = 'positionMarker';
+canvas.height = document.getElementById('viewer').height;
+canvas.width = 3;
 var canvasContext = canvas.getContext('2d');          // canvasContext is the canvas' context 2D
 var last16thNoteDrawn = -1; // the last "box" we drew on the screen
 var notesInQueue = [];      // the notes that have been put into the web audio,
@@ -110,6 +114,7 @@ var quarter = 0,
 var numBeats = 4;
 var measureTime = numBeats * quarter;
 var measureCount = 4;
+var viewer = document.getElementById('viewer');
 
 
     // First, let's shim the requestAnimationFrame API, with a setTimeout fallback
@@ -157,6 +162,7 @@ function scheduleNote( beatNumber, time ) {
     kickLevel = .5 * hipHopLevel;
     snareLevel = .5 * hipHopLevel;
     hatLevel = .2 * hipHopLevel;
+
     function countOffWindow() {
         if (beatNumber < preRoll) {
             document.getElementById('countOff').style.display = 'inline-block';
@@ -533,8 +539,7 @@ function resetCanvas (e) {
     //make sure we scroll to the top left.
     window.scrollTo(0,0);
 }
-var xValues = [];
-var noteDurations = [];
+
 function draw() {
     var currentNote = last16thNoteDrawn;
     var currentTime = context.currentTime;
@@ -564,13 +569,13 @@ function draw() {
                         }
                         subdivision = 16 / parseInt(noteData[i].duration);
                         xIncr = xDiff / subdivision;
-                        for (var j = 0; j < subdivision; j++) {
-                            x = (noteData[i].noteX + (xIncr * j));
-                            xPos.push(x);
-                        }
+                            for (var j = 0; j < subdivision; j++) {
+                                x = 10 + (noteData[i].noteX + (xIncr * j));
+                                xPos.push(x);
+                            }
                     for (var f = 0; f < xPos.length + preRoll; f++) {
                         canvasContext.fillStyle = ( currentNote == f + preRoll) ? "#00FF00" : "white";
-                        canvasContext.fillRect(xPos[f], 0, 7, 100);
+                        canvasContext.fillRect(xPos[f], 0, 3, 100);
                     }
             }
             //for (var f = 0; f < xPos.length + preRoll; f++) {
@@ -601,11 +606,9 @@ function drawCursor() {
 
     }
 }
-canvasContext.beginPath();
-canvasContext.moveTo(40, 11);
-canvasContext.lineTo(40, 95);
-canvasContext.strokeStyle = '#00FF00';
-canvasContext.stroke();
+document.getElementById('notationViewer').insertBefore(canvas, document.getElementById('viewer'));
+canvasContext.fillStyle = "#00FF00";
+canvasContext.fillRect(50, 0, 3, 125);
 
 
 function loadedPiano(PIANO) {
