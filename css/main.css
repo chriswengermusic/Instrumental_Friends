@@ -1,3 +1,7 @@
+html, body {
+    height: 100%;
+}
+
 .play {
     -moz-box-shadow:inset 0px 20px 26px 0px #b6cde3;
     -webkit-box-shadow:inset 0px 20px 26px 0px #b6cde3;
@@ -48,7 +52,8 @@
 }
 .container-fluid {
     position:fixed; top:0px; left:0px; width:100%; height:100%;
-    background-color: #666666;
+    background: linear-gradient(36deg, #000000, #666666 , #000000, #666666);
+    min-height: 100%;
     height: 100%;
     border-radius: 10px;
 }
@@ -70,18 +75,20 @@
      text-align: center;
  }
  #notationViewer{
+     min-height: 25%;
      height: 25%;
  }
  #positionMarker {
+     height: 25%;
+     width: 3px;
      background-color: #FFFFFF;
      z-index: 1;
  }
- .spacer {
-     height: 25%;
+ .empty {
+     height: 10%;
  }
 
 .playerControls {
-    display: inline-block;
     height: 50%;
     font-family:Palatino Linotype;
     font-size:14px;
