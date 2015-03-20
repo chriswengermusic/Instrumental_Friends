@@ -55,7 +55,7 @@
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
             <div class="playerControls">Tempo:<div class="arrow-up" id="plusTempo" onclick=increaseTempo();></div><div class="spacer"></div><div class="playerControls" id="tempoBox"><span id="showTempo">86</span></div>
-                <div class="arrow-down" id="minusTempo" onclick=decreaseTempo();></div>
+                <div class="spacer"></div><div class="arrow-down" id="minusTempo" onclick=decreaseTempo();></div>
             </div>
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
@@ -69,23 +69,12 @@
             </div>
          </div>
     </div>
-
 </div>
 <script src="js/audioPlayer2.js"></script>
+<script src="js/helperFunctions.js"></script>
 <script src="http://cwilso.github.io/AudioContext-MonkeyPatch/AudioContextMonkeyPatch.js"></script>
 <script>
-    var increaseTempo = document.getElementById('plusTempo');
-    increaseTempo.onclick = function() {
-        var tempo = document.getElementById('showTempo').innerHTML;
-        var newTempo = parseInt(tempo) + 1;
-        document.getElementById('showTempo').innerHTML = newTempo;
-    };
-    var decreaseTempo = document.getElementById('minusTempo');
-    decreaseTempo.onclick = function() {
-        var tempo = document.getElementById('showTempo').innerHTML;
-        var newTempo = parseInt(tempo) - 1;
-        document.getElementById('showTempo').innerHTML = newTempo;
-    };
+
     /*var canvas = document.getElementById("positionMarker");
     var context = canvas.getContext('2d');
 
