@@ -5,7 +5,7 @@ var context = null;
 var isPlaying = false;      // Are we currently playing?
 var startTime;              // The start time of the entire sequence.
 var current16thNote;        // What note is currently last scheduled?
-var tempo = 86.0;          // tempo (in beats per minute)
+var tempo = parseInt(document.getElementById('showTempo').innerHTML);          // tempo (in beats per minute)
 var lookahead = 25.0;       // How frequently to call scheduling function
                             //(in milliseconds)
 var scheduleAheadTime = 0.1;    // How far ahead to schedule audio (sec)
@@ -17,8 +17,9 @@ var noteLength;      // length of "beep" (in seconds)
 var canvas = document.createElement('canvas');
                     // the canvas element
 canvas.id = 'positionMarker';
-canvas.height = document.getElementById('viewer').height;
+canvas.height = 125;
 canvas.width = 3;
+canvas.x_offset = 50;
 var canvasContext = canvas.getContext('2d');          // canvasContext is the canvas' context 2D
 var last16thNoteDrawn = -1; // the last "box" we drew on the screen
 var notesInQueue = [];      // the notes that have been put into the web audio,
@@ -77,9 +78,9 @@ var Bb1,
     breakCHat;
 
 var PIANO;
-var pianoLevel = 1.0;
+var pianoLevel = parseInt(document.getElementById('pLevel').innerHTML)/10;
 var HIPHOP;
-var drumsLevel = 1.0;
+var drumsLevel = parseInt(document.getElementById('dLevel').innerHTML)/ 10;
 var BREAKBEAT;
 var breakbeatLevel;
 var houseLevel;
@@ -606,9 +607,10 @@ function drawCursor() {
 
     }
 }
-document.getElementById('notationViewer').insertBefore(canvas, document.getElementById('viewer'));
 canvasContext.fillStyle = "#00FF00";
 canvasContext.fillRect(50, 0, 3, 125);
+document.getElementById('notationViewer').insertBefore(canvas, document.getElementById('viewer'));
+
 
 
 function loadedPiano(PIANO) {
@@ -717,7 +719,7 @@ BufferLoader.prototype.load = function() {
 };
 
 function init(){
-    var container = document.getElementById( 'container' );
+    var container = document.getElementById( 'container-fluid' );
     //canvasContext = canvas.getContext( '2d' );
     /*container.className = "container";
     canvas = document.createElement( 'canvas' );
@@ -835,3 +837,6 @@ function init(){
 
 }
 window.addEventListener("load", init );
+console.log(tempo);
+console.log(pianoLevel);
+console.log(drumsLevel);
