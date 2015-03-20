@@ -42,7 +42,7 @@
 <body>
 <div id="countOff"></div>
 <div class="container-fluid">
-    <div class= "row title" id="notationViewer">&nbsp Hot Cross Buns | Practice
+    <div class= "row" id="notationViewer"><span id="title">&nbsp Hot Cross Buns </span><span id="playType">| Practice</span>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="viewer">
             <p id="waitmsg">Please wait while we contact the mother ship...</p>
         </div>
@@ -51,21 +51,21 @@
     <div class="row playerControls">
         <div class="col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1"></div>
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-            <div><a class="play" onclick="this.innerHTML = play();">play</a></div>
+            <div class="arrow-right"><a class="play" onclick="this.innerHTML = play();">play</a></div>
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-            <div class="playerControls" id="tempoBox">
-                Tempo: <span id="showTempo">86</span>BPM <input class="playerControls" id="tempo" type="range" min="54.0" max="160.0" step="1" value="86" style="height: 10px; width: 100px" onInput="tempo = event.target.value; document.getElementById('showTempo').innerHTML=tempo;">
+            <div class="playerControls">Tempo:<div class="arrow-up" id="plusTempo" onclick=increaseTempo();></div><div class="spacer"></div><div class="playerControls" id="tempoBox"><span id="showTempo">86</span></div>
+                <div class="arrow-down" id="minusTempo" onclick=decreaseTempo();></div>
             </div>
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
             <div class="playerControls" id="pianoVolume">
-                Piano Volume: <span id="pLevel">0</span><input class="playerControls" id="pianoLevel" type="range" min="0" max="1" step="any" value="1" style="height: 5px; width: 50px" onInput="pianoLevel = event.target.value;">10
+                Piano: <span id="pLevel">0</span><input class="playerControls" id="pianoLevel" type="range" min="0" max="1" step="any" value="1" style="height: 5px; width: 50px" onInput="pianoLevel = event.target.value;">10
             </div>
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
             <div class="playerControls" id="drumsVolume">
-                Drums Volume: <span id="dLevel">0</span><input class="playerControls" id="drumsLevel" type="range" min="0" max="1" step="any" value="1" style="height: 5px; width: 50px" onInput="drumsLevel = event.target.value;">10
+                Drums: <span id="dLevel">0</span><input class="playerControls" id="drumsLevel" type="range" min="0" max="1" step="any" value="1" style="height: 5px; width: 50px" onInput="drumsLevel = event.target.value;">10
             </div>
          </div>
     </div>
@@ -74,6 +74,18 @@
 <script src="js/audioPlayer2.js"></script>
 <script src="http://cwilso.github.io/AudioContext-MonkeyPatch/AudioContextMonkeyPatch.js"></script>
 <script>
+    var increaseTempo = document.getElementById('plusTempo');
+    increaseTempo.onclick = function() {
+        var tempo = document.getElementById('showTempo').innerHTML;
+        var newTempo = parseInt(tempo) + 1;
+        document.getElementById('showTempo').innerHTML = newTempo;
+    };
+    var decreaseTempo = document.getElementById('minusTempo');
+    decreaseTempo.onclick = function() {
+        var tempo = document.getElementById('showTempo').innerHTML;
+        var newTempo = parseInt(tempo) - 1;
+        document.getElementById('showTempo').innerHTML = newTempo;
+    };
     /*var canvas = document.getElementById("positionMarker");
     var context = canvas.getContext('2d');
 
