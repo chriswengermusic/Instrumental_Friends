@@ -14417,7 +14417,7 @@ Vex.Flow.DocumentFormatter.prototype.drawPart =
       var ticks = vfVoice.tickables[k].intrinsicTicks;
       var mstartX = vfVoice.stave.x * scale * zoom;
       var noteX = vfVoice.tickables[k].tickContext.x * zoom * scale;
-      noteData.push({"pitch": keys, "duration": dur, "noteX": (mstartX + noteX), "ticks": ticks});
+      noteData.push({"pitch": keys, "duration": dur, "mX": mstartX, "noteX": noteX, "ticks": ticks});
     }
     //console.log(vfVoice.tickables);
 
