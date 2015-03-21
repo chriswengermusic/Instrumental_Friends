@@ -590,14 +590,25 @@ function draw() {
 
 
 function drawCursor() {
+    var s = 0;
+    var xOffset;
 
+    var cursorRate = ((noteData[s].mX + noteData[s].noteX) - (noteData[s+1].mX +noteData[s+1].noteX)) / 32;
+    var i=0;
+    if (noteData[i].mX == 10 * scale * zoom || noteData[i].mX == 15 * scale * zoom){
+        xOffset = 55 * scale * zoom;
+    }
+    else{ xOffset = 30 * scale * zoom;
+    }
 
     cursor = document.createElement('canvas');
     cursor.id = 'positionMarker';
-    cursor.height = 85;
+    cursor.height = 85%;
     cursor.width = 3;
+
     document.getElementById('viewer').appendChild(cursor);
-    document.getElementById('positionMarker').style.left = (noteData[0].mX + noteData[0].noteX + 50).toString() + "px";
+    document.getElementById('positionMarker').style.left = (noteData[i].mX + noteData[i].noteX + xOffset).toString() + "px";
+
 }
 
 
