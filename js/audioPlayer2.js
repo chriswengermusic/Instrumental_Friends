@@ -14,13 +14,10 @@ var scheduleAheadTime = 0.1;    // How far ahead to schedule audio (sec)
 var nextNoteTime = 0.0;     // when the next note is due.
 var noteResolution = 0;     // 0 == 16th, 1 == 8th, 2 == quarter note
 var noteLength;      // length of "beep" (in seconds)
-var canvas = document.createElement('canvas');
+//var canvas = document.createElement('canvas');
                     // the canvas element
-canvas.id = 'positionMarker';
-canvas.height = 125;
-canvas.width = 3;
-canvas.x_offset = 50;
-var canvasContext = canvas.getContext('2d');          // canvasContext is the canvas' context 2D
+
+//var canvasContext = cursor.getContext('2d');          // canvasContext is the canvas' context 2D
 var last16thNoteDrawn = -1; // the last "box" we drew on the screen
 var notesInQueue = [];      // the notes that have been put into the web audio,
                             // and may or may not have played yet. {note, time}
@@ -590,26 +587,18 @@ function draw() {
         requestAnimFrame(draw);
 
 }
-function drawCursor() {
-    var x;
-    var start_x = 50 * scale * zoom;
-    var xDiff;
-    if(isPlaying){
-        for (var i = 0; i < (measureCount * numBeats * 4096) + (preRoll * 4096); i += 16) {
-            if (i <= preRoll * 4096){
-                 x = start_x;
-            }
-            else{
-                xDiff =
-                x = 50 * scale * zoom
-            }
-        }
 
-    }
+
+function drawCursor() {
+
+
+    cursor = document.createElement('canvas');
+    cursor.id = 'positionMarker';
+    cursor.height = 85;
+    cursor.width = 3;
+    document.getElementById('viewer').appendChild(cursor);
+    document.getElementById('positionMarker').style.left = (noteData[0].mX + noteData[0].noteX + 50).toString() + "px";
 }
-canvasContext.fillStyle = "#00FF00";
-canvasContext.fillRect(50, 0, 3, 125);
-document.getElementById('notationViewer').insertBefore(canvas, document.getElementById('viewer'));
 
 
 
