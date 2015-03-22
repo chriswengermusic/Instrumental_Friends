@@ -14412,20 +14412,21 @@ Vex.Flow.DocumentFormatter.prototype.drawPart =
   var i = 0;
   vfVoices.forEach(function(vfVoice) {
     for (var k = 0; k < vfVoice.tickables.length; k++){
-      var dur = vfVoice.tickables[k].duration;
+      var dur = parseInt(vfVoice.tickables[k].duration);
       var keys = vfVoice.tickables[k].keys[0];
       var ticks = vfVoice.tickables[k].intrinsicTicks;
       var mstartX = vfVoice.stave.x * scale * zoom;
       var noteX = vfVoice.tickables[k].tickContext.x * zoom * scale;
       noteData.push({"pitch": keys, "duration": dur, "mX": mstartX, "noteX": noteX, "ticks": ticks});
+
     }
-    //console.log(vfVoice.tickables);
 
     vfVoice.draw(context, vfVoice.stave); });
   allVfObjects.forEach(function(obj) {
     obj.setContext(context).draw();  });
 
 }
+
 //this is the global variable array which contains the note data for later use
 // console.log(noteData);
 
