@@ -588,27 +588,46 @@ function draw() {
 
 }
 
+var timePerTick = ((60 / tempo) / 128) * 1000;
+console.log(timePerTick);
+//setInterval(cursorDraw(){
+
+//}, (timePerTick));
+
+//setInterval(function(){ myTimer() }, 1000);
 
 function drawCursor() {
-    var s = 0;
-    var xOffset;
+    var s, xOffset, totalTicks, cursorRate;
+    for (var i = 0; i < 1; i++) {
+    //if (context.currentTime >= (preRoll * quarter)) {
+        var xDiff;
+        var duration = noteData[i].duration;
+        if (noteData[i].mX == 10 * scale * zoom || noteData[i].mX == 15 * scale * zoom) {
+            xOffset = 55 * scale * zoom;
+        }
+        else {
+            xOffset = 30 * scale * zoom;
+        }
 
-    var cursorRate = ((noteData[s].mX + noteData[s].noteX) - (noteData[s+1].mX +noteData[s+1].noteX)) / 32;
-    var i=0;
-    if (noteData[i].mX == 10 * scale * zoom || noteData[i].mX == 15 * scale * zoom){
-        xOffset = 55 * scale * zoom;
-    }
-    else{ xOffset = 30 * scale * zoom;
-    }
+        if (i = noteData.length - 1){
+            xDiff = ((document.getElementById('viewer').width - 10) - (noteData[i - 1].mX + noteData[i - 1].noteX)) / (128 / duration);
+        }
+        else{
+            xDiff = ((noteData[i + 1].mX + noteData[i + 1].noteX) - (noteData[i].mX + noteData[i].noteX)) / (128 / duration);
+        }
+        setInterval(function(){ cursorDraw()}, timePerTick);
+            var cursorDraw = function(){
+                var cursor = document.createElement('canvas');
+                cursor.id = 'positionMarker';
+                cursor.height = 85;
+                cursor.width = 3;
 
-    cursor = document.createElement('canvas');
-    cursor.id = 'positionMarker';
-    cursor.height = 85%;
-    cursor.width = 3;
+                document.getElementById('viewer').appendChild(cursor);
+                document.getElementById('positionMarker').style.left = (noteData[i].mX + noteData[i].noteX + xOffset + xDiff).toString() + "px";
+            };
+        }
 
-    document.getElementById('viewer').appendChild(cursor);
-    document.getElementById('positionMarker').style.left = (noteData[i].mX + noteData[i].noteX + xOffset).toString() + "px";
-
+    //}
 }
 
 
