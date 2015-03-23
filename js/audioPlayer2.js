@@ -588,13 +588,43 @@ function draw() {
 
 }
 
-var timePerTick = ((60 / tempo) / 128) * 1000;
-console.log(timePerTick);
+var cursorTime = ((60 / tempo) / 128) * 1000;
+console.log(cursorTime);
 //setInterval(cursorDraw(){
 
 //}, (timePerTick));
 
-//setInterval(function(){ myTimer() }, 1000);
+
+function drawFunction() {
+    var beatTime = (60 / tempo) * 1000;
+    var i = 0;
+    var xOffset;
+
+    (function iterate() {
+        var cursor = document.createElement('canvas');
+        cursor.id = 'positionMarker';
+        cursor.height = 85;
+        cursor.width = 4;
+        if (noteData[i].mX == 10 * scale * zoom || noteData[i].mX == 15 * scale * zoom) {
+            xOffset = 55 * scale * zoom;
+        }
+        else {
+            xOffset = 30 * scale * zoom;
+        }
+        if(i == noteData.length){
+            var position = ((document.getElementById('viewer').width - 20) + xOffset)+ "px";
+        }
+        else{
+            position = ((noteData[i].mX + noteData[i].noteX).toString() + xOffset) + "px";
+        }
+
+        document.getElementById('viewer').appendChild(cursor);
+        document.getElementById('positionMarker').style.left = (position);
+        i++;
+        setTimeout(iterate, beatTime);
+    })();
+}
+
 
 function drawCursor() {
     var s, xOffset, totalTicks, cursorRate;
@@ -615,7 +645,7 @@ function drawCursor() {
         else{
             xDiff = ((noteData[i + 1].mX + noteData[i + 1].noteX) - (noteData[i].mX + noteData[i].noteX)) / (128 / duration);
         }
-        setInterval(function(){ cursorDraw()}, timePerTick);
+        setInterval(function(){ cursorDraw()}, cursorTime);
             var cursorDraw = function(){
                 var cursor = document.createElement('canvas');
                 cursor.id = 'positionMarker';
@@ -626,7 +656,7 @@ function drawCursor() {
                 document.getElementById('positionMarker').style.left = (noteData[i].mX + noteData[i].noteX + xOffset + xDiff).toString() + "px";
             };
         }
-
+        clearInterval();
     //}
 }
 
