@@ -596,15 +596,22 @@ console.log(cursorTime);
 
 
 function drawFunction() {
-    var beatTime = (60 / tempo) * 1000;
+    var beatTime = ((60 / tempo)) * 1000;
     var i = 0;
     var xOffset;
+    var duration = noteData[i].duration;
+    var xDiff;
 
     (function iterate() {
+        var cursorCanvas = document.getElementById('positionMarker');
+        if(cursorCanvas) {
+            cursorCanvas.parentNode.removeChild(cursorCanvas);
+        }
         var cursor = document.createElement('canvas');
         cursor.id = 'positionMarker';
         cursor.height = 85;
         cursor.width = 4;
+        var cursorDiff = 128 / duration;
         if (noteData[i].mX == 10 * scale * zoom || noteData[i].mX == 15 * scale * zoom) {
             xOffset = 55 * scale * zoom;
         }
@@ -612,12 +619,15 @@ function drawFunction() {
             xOffset = 30 * scale * zoom;
         }
         if(i == noteData.length){
-            var position = ((document.getElementById('viewer').width - 20) + xOffset)+ "px";
+            var position = (document.getElementById('viewer').width - 20)+ "px";
         }
         else{
-            position = ((noteData[i].mX + noteData[i].noteX).toString() + xOffset) + "px";
+            position = (noteData[i].mX + noteData[i].noteX + xOffset).toString() + "px";
         }
-
+        /*for (var j = 0; j < 128/duration; j++){
+            var cursorTime = beatTime/32;
+        }
+        */
         document.getElementById('viewer').appendChild(cursor);
         document.getElementById('positionMarker').style.left = (position);
         i++;
