@@ -5,7 +5,7 @@ var context = null;
 var isPlaying = false;      // Are we currently playing?
 var startTime;              // The start time of the entire sequence.
 var current16thNote;        // What note is currently last scheduled?
-var tempo = parseInt(document.getElementById('showTempo').innerHTML);          // tempo (in beats per minute)
+var tempo;          // tempo (in beats per minute)
 var lookahead = 25.0;       // How frequently to call scheduling function
                             //(in milliseconds)
 var scheduleAheadTime = 0.1;    // How far ahead to schedule audio (sec)
@@ -75,7 +75,7 @@ var Bb1,
     breakCHat;
 
 var PIANO;
-var pianoLevel = parseInt(document.getElementById('pLevel').innerHTML)/10;
+var pianoLevel;
 var HIPHOP;
 var drumsLevel = parseInt(document.getElementById('dLevel').innerHTML)/ 10;
 var BREAKBEAT;
@@ -149,6 +149,55 @@ var repeatCount = true;
 var preRoll = numBeats * 4;
 var buffer;
 var countOffDisplay = null;
+var setTempo = function(){
+    tempo = parseInt(document.getElementById('showTempo').innerHTML);
+};
+var setPianoLevel = function(){
+    pianoLevel = parseInt(document.getElementById('pLevel').innerHTML)/10;
+};
+var setDrumLevel = function(){
+    drumsLevel = parseInt(document.getElementById('dLevel').innerHTML)/10;
+};
+var increaseTempo = document.getElementById('plusTempo');
+increaseTempo.onclick = function() {
+    var tempo = document.getElementById('showTempo').innerHTML;
+    var newTempo = parseInt(tempo) + 1;
+    document.getElementById('showTempo').innerHTML = newTempo;
+    setTempo();
+};
+
+var decreaseTempo = document.getElementById('minusTempo');
+decreaseTempo.onclick = function() {
+    var tempo = document.getElementById('showTempo').innerHTML;
+    var newTempo = parseInt(tempo) - 1;
+    document.getElementById('showTempo').innerHTML = newTempo;
+    setTempo();
+};
+
+var decreaseDrums = document.getElementById("minusDrums");
+decreaseDrums.onclick = function() {
+    var volume = document.getElementById('dLevel').innerHTML;
+    var newVolume = parseInt(volume) - 1;
+    document.getElementById('dLevel').innerHTML = newVolume;
+    setDrumLevel();
+};
+
+var increaseDrums = document.getElementById("plusDrums");
+decreaseDrums.onclick = function() {
+    var volume = document.getElementById('dLevel').innerHTML;
+    var newVolume = parseInt(volume) + 1;
+    document.getElementById('dLevel').innerHTML = newVolume;
+    setDrumLevel()
+};
+
+var increasePiano = document.getElementById("plusPiano");
+increasePiano.onclick = function() {
+    var volume = document.getElementById('pLevel').innerHTML;
+    var newVolume = parseInt(volume) + 1;
+    document.getElementById('pLevel').innerHTML = newVolume;
+    setPianoLevel();
+};
+
 function scheduleNote( beatNumber, time ) {
     // push the note on the queue, even if we're not playing.
     notesInQueue.push({note: beatNumber, time: time});
@@ -551,7 +600,14 @@ function draw() {
         // We only need to draw if the note has moved.
         if (last16thNoteDrawn != currentNote) {
             //var x = Math.floor(canvas.width * .9) / (16 * measureCount);
-            canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+            var cursorCanvas = document.getElementById('positionMarker');
+            if(cursorCanvas) {
+                cursorCanvas.parentNode.removeChild(cursorCanvas);
+            }
+            var cursor = document.createElement('canvas');
+            cursor.id = 'positionMarker';
+            cursor.height = 85;
+            cursor.width = 4;
             var xPos = [];
 
                     for (var i = 0; i < noteData.length; i++) {
@@ -560,21 +616,27 @@ function draw() {
                         var xIncr = 0;
                         var subdivision = [];
                         if (i == noteData.length - 1) {
-                            xDiff = Math.floor(canvas.width - noteData[i].noteX);
+                            xDiff = Math.floor(document.getElementById('viewer').width - (noteData[i].mX + noteData[i].noteX));
                         }
                         else {
-                            xDiff = Math.floor(noteData[i + 1].noteX - noteData[i].noteX);
+                            xDiff = Math.floor((noteData[i+1].mX + noteData[i + 1].noteX) - (noteData[i].mX + noteData[i].noteX));
+                        }
+                        if (noteData[i].mX == 10 * scale * zoom || noteData[i].mX == 15 * scale * zoom) {
+                            var xOffset = 55 * scale * zoom;
+                        }
+                        else {
+                            xOffset = 30 * scale * zoom;
                         }
                         subdivision = 16 / parseInt(noteData[i].duration);
                         xIncr = xDiff / subdivision;
                             for (var j = 0; j < subdivision; j++) {
-                                x = 10 + (noteData[i].noteX + (xIncr * j));
+                                x = xOffset + ( noteData[i].mX + noteData[i].noteX + (xIncr * j));
                                 xPos.push(x);
                             }
-                    for (var f = 0; f < xPos.length + preRoll; f++) {
-                        canvasContext.fillStyle = ( currentNote == f + preRoll) ? "#00FF00" : "white";
-                        canvasContext.fillRect(xPos[f], 0, 3, 100);
-                    }
+                    /*for (var f = 0; f < xPos.length + preRoll; f++) {
+                        document.getElementById('viewer').appendChild(cursor);
+                        document.getElementById('positionMarker').style.left = (xPos + "px");
+                    }*/
             }
             //for (var f = 0; f < xPos.length + preRoll; f++) {
                 //canvasContext.fillStyle = ( currentNote == f + preRoll) ? "#00FF00" : "white";
@@ -588,6 +650,47 @@ function draw() {
 
 }
 
+/*function getXValues(){
+    var xPositions = [];
+    //for (var i = 0; i < noteData.length; i++) {
+        var x = noteData[0].mX + noteData[0].noteX;
+        xPositions.push(x);
+        var xOffset; //adjusts for modifiers, space at beginning of measures
+        var xDiff; // gets the difference from one note to the next/end
+        var xIncr; //divides xDiff by 32 segments per beat
+        var duration;
+        if (i == noteData.length) {
+            var duration = 128;
+            x = document.getElementById('viewer').width - 20;
+            xDiff = 0;
+        }
+        else if (i == noteData.length - 1) {
+            duration = noteData[i].duration;
+            xOffset = 30 * scale * zoom;
+            xDiff = (document.getElementById('viewer').width - 20) - (noteData[i].mX + noteData[i].noteX + xOffset);
+        }
+        else {
+            duration = noteData[i].duration;
+            if (noteData[i].mX == 10 * scale * zoom || noteData[i].mX == 15 * scale * zoom) {
+                xOffset = 55 * scale * zoom;
+            }
+            else {
+                xOffset = 30 * scale * zoom;
+            }
+            xDiff = (noteData[i + 1].mX + noteData[i + 1].noteX + xOffset) - (noteData[i].mX + noteData[i].noteX + xOffset);
+            var x = noteData[i].mX + noteData[i].noteX;
+        //}
+        xPositions.push(x);
+        for (var j = 0; j < 128 / duration; j++) {
+            xIncr = (xDiff / (128 / duration));
+            xPositions.push(x + (j * xIncr));
+        }
+
+    //}
+    return xPositions;
+}
+console.log(getXValues());
+*/
 var cursorTime = ((60 / tempo) / 128) * 1000;
 console.log(cursorTime);
 //setInterval(cursorDraw(){
@@ -595,7 +698,7 @@ console.log(cursorTime);
 //}, (timePerTick));
 
 
-function drawFunction() {
+/*function drawFunction() {
     var beatTime = ((60 / tempo)) * 1000;
     var i = 0;
     var xOffset;
@@ -619,24 +722,24 @@ function drawFunction() {
             xOffset = 30 * scale * zoom;
         }
         if(i == noteData.length){
-            var position = (document.getElementById('viewer').width - 20)+ "px";
+            var position = (document.getElementById('viewer').width - 20);
         }
         else{
-            position = (noteData[i].mX + noteData[i].noteX + xOffset).toString() + "px";
+            position = (noteData[i].mX + noteData[i].noteX + xOffset).toString();
         }
         /*for (var j = 0; j < 128/duration; j++){
             var cursorTime = beatTime/32;
         }
         */
-        document.getElementById('viewer').appendChild(cursor);
-        document.getElementById('positionMarker').style.left = (position);
+        /*document.getElementById('viewer').appendChild(cursor);
+        document.getElementById('positionMarker').style.left = (position + "px");
         i++;
         setTimeout(iterate, beatTime);
     })();
 }
+*/
 
-
-function drawCursor() {
+/*function drawCursor() {
     var s, xOffset, totalTicks, cursorRate;
     for (var i = 0; i < 1; i++) {
     //if (context.currentTime >= (preRoll * quarter)) {
@@ -669,7 +772,7 @@ function drawCursor() {
         clearInterval();
     //}
 }
-
+*/
 
 
 function loadedPiano(PIANO) {
@@ -895,7 +998,4 @@ function init(){
         timerWorker.postMessage({"interval":lookahead});
 
 }
-window.addEventListener("load", init );
-console.log(tempo);
-console.log(pianoLevel);
-console.log(drumsLevel);
+window.addEventListener("load", init() );
