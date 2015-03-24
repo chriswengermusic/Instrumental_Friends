@@ -5,7 +5,7 @@ var context = null;
 var isPlaying = false;      // Are we currently playing?
 var startTime;              // The start time of the entire sequence.
 var current16thNote;        // What note is currently last scheduled?
-var tempo;          // tempo (in beats per minute)
+var tempo = parseInt(document.getElementById('showTempo').innerHTML);          // tempo (in beats per minute)
 var lookahead = 25.0;       // How frequently to call scheduling function
                             //(in milliseconds)
 var scheduleAheadTime = 0.1;    // How far ahead to schedule audio (sec)
@@ -75,20 +75,20 @@ var Bb1,
     breakCHat;
 
 var PIANO;
-var pianoLevel;
+var pianoLevel = parseInt(document.getElementById('pLevel').innerHTML)/10;
 var HIPHOP;
-var drumsLevel = parseInt(document.getElementById('dLevel').innerHTML)/ 10;
+var drumsLevel = parseInt(document.getElementById('dLevel').innerHTML)/10;
 var BREAKBEAT;
 var breakbeatLevel;
 var houseLevel;
 var HOUSE;
 function setDrumVolume() {
-    if(tempo <= 86){
+    if(tempo <= 92){
         hipHopLevel = drumsLevel;
         breakbeatLevel = 0;
         houseLevel = 0;
     }
-    else if((tempo > 86) && (tempo < 120)){
+    else if((tempo > 92) && (tempo < 120)){
         breakbeatLevel = drumsLevel;
         hipHopLevel = 0;
         houseLevel = 0;
@@ -183,7 +183,7 @@ decreaseDrums.onclick = function() {
 };
 
 var increaseDrums = document.getElementById("plusDrums");
-decreaseDrums.onclick = function() {
+increaseDrums.onclick = function() {
     var volume = document.getElementById('dLevel').innerHTML;
     var newVolume = parseInt(volume) + 1;
     document.getElementById('dLevel').innerHTML = newVolume;
@@ -194,6 +194,13 @@ var increasePiano = document.getElementById("plusPiano");
 increasePiano.onclick = function() {
     var volume = document.getElementById('pLevel').innerHTML;
     var newVolume = parseInt(volume) + 1;
+    document.getElementById('pLevel').innerHTML = newVolume;
+    setPianoLevel();
+};
+var decreasePiano = document.getElementById("minusPiano");
+decreasePiano.onclick = function() {
+    var volume = document.getElementById('pLevel').innerHTML;
+    var newVolume = parseInt(volume) - 1;
     document.getElementById('pLevel').innerHTML = newVolume;
     setPianoLevel();
 };
