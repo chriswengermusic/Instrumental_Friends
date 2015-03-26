@@ -67,7 +67,7 @@ var piano = [
 ];
 var key = "C";
 var Do, Re, Mi, Fa, Sol, La, Ti;
-var stepNums = [0, 5, 7, 12, 14, 16, 17, 19, 21, 23, 24];
+var stepNums = [0, 5, 7, 23, 24, 26, 28, 29, 31, 33];
 var num;
 var oct;
 
@@ -118,7 +118,7 @@ function getPianoArray(){
 }
 getPianoArray();
 console.log(pianotoLoad);
-var Do1, Fa1, Sol1, Do2, Re2, Mi2, Fa2, Sol2, La2, Ti2, Do3,
+var Do1, Fa1, Sol1, Ti2, Do3, Re3, Mi3, Fa3, Sol3, La3,
     kick,
     kickLow,
     snare,
@@ -357,11 +357,11 @@ function scheduleNote( beatNumber, time ) {
         }
     }
 //TODO: enable transposition via solfege
-    var I = [Do1, Sol1, Do2, Mi2, Sol2, Do3];
-    var V = [Sol1, Re2, Sol2, Ti2];
-    var V7 = [Sol1, Re2, Fa2, Sol2, Ti2];
-    var IV = [Fa1, Do2, Fa2, La2, Do3];
-    var vi = [Do1, Do2, Mi2, La2];
+    var I = [Do1, Do3, Mi3, Sol3];
+    var V = [Sol1, Ti2, Re3, Sol3];
+    var V7 = [Sol1, Ti2, Re3, Fa3, Sol3];
+    var IV = [Fa1, Do3, Fa3, La3];
+    var vi = [Do1, Do3, Mi3, La3];
 
     accompaniment();
     drawCursor5();
@@ -885,14 +885,13 @@ function loadedPiano(PIANO) {
     Do1 = PIANO[0];
     Fa1 = PIANO[1];
     Sol1 = PIANO[2];
-    Do2 = PIANO[3];
-    Re2 = PIANO[4];
-    Mi2 = PIANO[5];
-    Fa2 = PIANO[6];
-    Sol2 = PIANO[7];
-    La2 = PIANO[8];
-    Ti2 = PIANO[9];
-    Do3 = PIANO[10];
+    Ti2 = PIANO[3];
+    Do3 = PIANO[4];
+    Re3 = PIANO[5];
+    Mi3 = PIANO[6];
+    Fa3 = PIANO[7];
+    Sol3 = PIANO[8];
+    La3 = PIANO[9];
 }
 function loadedHipHop(HIPHOP) {
     kick = HIPHOP[0];
