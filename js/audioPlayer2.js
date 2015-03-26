@@ -116,8 +116,7 @@ function getPianoArray(){
         pianotoLoad.push(piano[num + stepNums[i]]);
     }
 }
-getPianoArray();
-console.log(pianotoLoad);
+
 var Do1, Fa1, Sol1, Ti2, Do3, Re3, Mi3, Fa3, Sol3, La3,
     kick,
     kickLow,
@@ -356,7 +355,7 @@ function scheduleNote( beatNumber, time ) {
             playSound(chord[n], duration, level);
         }
     }
-//TODO: enable transposition via solfege
+
     var I = [Do1, Do3, Mi3, Sol3];
     var V = [Sol1, Ti2, Re3, Sol3];
     var V7 = [Sol1, Ti2, Re3, Fa3, Sol3];
@@ -364,7 +363,6 @@ function scheduleNote( beatNumber, time ) {
     var vi = [Do1, Do3, Mi3, La3];
 
     accompaniment();
-    drawCursor5();
         function accompaniment() {
             if (beatNumber === 0 + preRoll) {
                 playChord(I, quarter, pianoLevel);
@@ -638,21 +636,21 @@ function play() {
 
 function resetCanvas (e) {
     // resize the canvas - but remember - this clears the canvas too.
-    cursorCanvas.width = window.innerWidth;
-    cursorCanvas.height = window.innerHeight;
+    //cursorCanvas.width = window.innerWidth;
+    //cursorCanvas.height = window.innerHeight;
 
     //make sure we scroll to the top left.
     window.scrollTo(0,0);
 }
-var xPos;
-function getXVals() {
-    xPos = [];
+var xPos = [];
+//console.log();
 
+function getXVals() {
+    var x = 0;
+    var xDiff = 0;
+    var xIncr = 0;
+    var subdivision = [];
     for (var i = 0; i < noteData.length; i++) {
-        var x = 0;
-        var xDiff = 0;
-        var xIncr = 0;
-        var subdivision = [];
         if (i == noteData.length - 1) {
             xDiff = Math.floor(document.getElementById('viewer').width - (noteData[i].mX + noteData[i].noteX));
         }
@@ -673,7 +671,8 @@ function getXVals() {
         }
     }
 }
-
+//getXVals();
+//console.log(xPos);
 function drawCursor5() {
     getXVals();
     for (var f = 0; f < xPos.length; f++) {
@@ -686,8 +685,8 @@ function drawCursor5() {
         cursor.id = 'positionMarker';
         cursor.height = 85;
         cursor.width = 4;
-        //document.getElementById('viewer').appendChild(cursor);
-        //document.getElementById('positionMarker').style.left = xVal + "px";
+        document.getElementById('viewer').appendChild(cursor);
+        document.getElementById('positionMarker').style.left = xVal + "px";
 
 }
 
@@ -704,10 +703,10 @@ function draw() {
         // We only need to draw if the note has moved.
         if (last16thNoteDrawn != currentNote) {
             //var x = Math.floor(canvas.width * .9) / (16 * measureCount);
-            cursorCanvas = document.getElementById('positionMarker');
+            /*cursorCanvas = document.getElementById('positionMarker');
             if(cursorCanvas) {
                 cursorCanvas.parentNode.removeChild(cursorCanvas);
-            }
+            }*/
             var cursor = document.createElement('canvas');
             cursor.id = 'positionMarker';
             cursor.height = 85;
@@ -803,8 +802,7 @@ console.log(getXValues());
 
 //}, (timePerTick));
 
-
-/*function drawFunction() {
+function drawFunction() {
     var beatTime = ((60 / tempo)) * 1000;
     var i = 0;
     var xOffset;
@@ -836,14 +834,14 @@ console.log(getXValues());
         /*for (var j = 0; j < 128/duration; j++){
             var cursorTime = beatTime/32;
         }
-        */
-        /*document.getElementById('viewer').appendChild(cursor);
+
+       */
+        document.getElementById('viewer').appendChild(cursor);
         document.getElementById('positionMarker').style.left = (position + "px");
         i++;
         setTimeout(iterate, beatTime);
     })();
 }
-*/
 
 /*function drawCursor() {
     var s, xOffset, totalTicks, cursorRate;
@@ -879,7 +877,7 @@ console.log(getXValues());
     //}
 }
 */
-
+//TODO: Convert HipHop files to mp3, load House sounds, redefine beats (as arrays?)
 
 function loadedPiano(PIANO) {
     Do1 = PIANO[0];
@@ -975,7 +973,7 @@ function init(){
     // spec-compliant, and work on Chrome, Safari and Firefox.
 
     context = new AudioContext();
-
+    getPianoArray();
     // if we wanted to load audio files, etc., this is where we should do it.
     var pianoLoader = new BufferLoader(
         context,
