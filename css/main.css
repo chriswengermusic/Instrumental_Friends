@@ -1,6 +1,7 @@
 html, body {
     height: 100%;
     width: 100%;
+    font-variant-caps: petite-caps;
 }
 /*TODO: Media queries*/
 
@@ -32,9 +33,13 @@ html, body {
 
 #title, #playType {
     font-family: 'Orbitron', sans-serif;
+    font-variant-caps: petite-caps;
     font-weight: 700;
     font-size: 36px;
     color: #E60000;
+}
+#playType {
+    text-transform: uppercase;
 }
 
 #notationViewer {
