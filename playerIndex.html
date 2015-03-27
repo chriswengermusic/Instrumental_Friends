@@ -23,7 +23,7 @@
             if (results == null) return undefined;
             else return decodeURIComponent(results[1].replace(/\+/g, " "));
         }
-    var doc, cursor;
+    var doc;
         $(document).ready(function() {
             var req = new XMLHttpRequest();
             var uri = getParameter('doc');
@@ -58,7 +58,7 @@
     <div class="row playerControls">
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 offset"></div>
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-            <div class="arrow-right"><a class="play" onclick="this.innerHTML = play();">play</a></div>
+            <div class="arrow-right"><a class="play" onclick="this.innerHTML = play(); cursorStart();">play</a></div>
         </div>
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 offset"></div>
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
