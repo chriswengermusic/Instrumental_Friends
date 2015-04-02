@@ -23,6 +23,12 @@
             if (results == null) return undefined;
             else return decodeURIComponent(results[1].replace(/\+/g, " "));
         }
+        function loadJSFile(filename){
+                var fileref = document.createElement('script');
+                fileref.setAttribute("type","text/javascript");
+                fileref.setAttribute("src", filename);
+                document.getElementsByTagName('body')[0].appendChild(fileref);
+            }
     var doc;
         $(document).ready(function() {
             var req = new XMLHttpRequest();
@@ -33,13 +39,11 @@
                 if (req.readyState != 4) return;
                     doc = new Vex.Flow.Document(req.responseText);
                     doc.getFormatter().setWidth(800).draw($("#viewer")[0]);
-
+                    loadJSFile('js/exercisePlayer.js');
             };
 
             req.send();
-            return doc;
         });
-
         //$(window).onresize(function () {
             //doc.getFormatter().setWidth(800).draw($("#viewer")[0]);
         //});
@@ -58,7 +62,7 @@
     <div class="row playerControls">
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 offset"></div>
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-            <div class="arrow-right"><a class="play" onclick="this.innerHTML = play(); cursorStart();">play</a></div>
+            <div class="arrow-right"><a class="play" onclick="this.innerHTML = play(); draw();">play</a></div>
         </div>
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 offset"></div>
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
@@ -86,8 +90,9 @@
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 offset"></div>
     </div>
 </div>
-<script src="js/audioPlayer2.js"></script>
-<script src="http://cwilso.github.io/AudioContext-MonkeyPatch/AudioContextMonkeyPatch.js"></script>
+<script src="js/helperFunctions.js"></script>
+<!--<script src="js/exercisePlayer.js"></script>--->
+<!--<script src="http://cwilso.github.io/AudioContext-MonkeyPatch/AudioContextMonkeyPatch.js"></script>--->
 <script>
 
     /*var canvas = document.getElementById("positionMarker");
