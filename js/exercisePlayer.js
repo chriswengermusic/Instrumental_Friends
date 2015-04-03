@@ -1,14 +1,19 @@
 /**
  * Created by cwenger on 4/1/2015.
  */
-var context = null;
+//var context = null;
+var tempo = parseInt(document.getElementById('showTempo').innerHTML); //the speed of each beat
+var pianoLevel = parseInt(document.getElementById('pLevel').innerHTML)/10; // the overall level of the piano sounds
+var drumsLevel = parseInt(document.getElementById('dLevel').innerHTML)/10; // the overall level of drum sounds
+
+//get the cursor values from the noteData array (from the XMl/Vexflow) to draw the cursor
 var xPos = [];
 function getXValues(){
     for (var i=0; i<noteData.length; i++){
         var xDiff, x, xIncr;
         var endX = window.innerWidth - 50;
         var duration = noteData[i].duration;
-        var cursorDiff = 128/duration;
+        var cursorDiff = 256/duration;
         if (i < noteData.length - 1) {
             if (noteData[i].mX == 10 * scale * zoom || noteData[i].mX == 15 * scale * zoom) {
                 var xOffset = 55 * scale * zoom;
@@ -36,5 +41,29 @@ function getXValues(){
         }
     }
 }
-getXValues();
-console.log(xPos);
+
+function cursorDraw() {
+    getXValues();
+    var i=0;
+    (function iterate() {
+        var x = (xPos[i]).toString() + "px";
+        var cursorTime = (((60/86)*1000)/64);
+        var cursorCanvas = document.getElementById('positionMarker');
+        if (cursorCanvas) {
+            cursorCanvas.parentNode.removeChild(cursorCanvas);
+        }
+        var cursor = document.createElement('canvas');
+        cursor.id = 'positionMarker';
+        cursor.height = 85;
+        cursor.width = 4;
+        document.getElementById('viewer').appendChild(cursor);
+        document.getElementById('positionMarker').style.left = x;
+        setTimeout(iterate, cursorTime);
+        i++;
+    })();
+}
+
+var cursorDisplay;
+function cursorStart() {
+    cursorDisplay = setTimeout(cursorDraw, (60 / tempo) * 4 * 1000);
+}
