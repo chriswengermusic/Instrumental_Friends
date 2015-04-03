@@ -62,7 +62,7 @@
     <div class="row playerControls">
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 offset"></div>
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-            <div class="arrow-right"><a class="play" onclick="this.innerHTML = play(); draw();">play</a></div>
+            <div class="arrow-right" onclick="cursorDraw()"><a class="play" onclick="this.innerHTML = play(); cursorStart();">play</a></div>
         </div>
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 offset"></div>
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
@@ -91,7 +91,7 @@
     </div>
 </div>
 <script src="js/helperFunctions.js"></script>
-<!--<script src="js/exercisePlayer.js"></script>--->
+<script src="js/audioPlayer2.js"></script>
 <!--<script src="http://cwilso.github.io/AudioContext-MonkeyPatch/AudioContextMonkeyPatch.js"></script>--->
 <script>
 
