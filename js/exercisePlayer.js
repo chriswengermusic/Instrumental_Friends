@@ -11,16 +11,16 @@ var xPos = [];
 function getXValues(){
     for (var i=0; i<noteData.length; i++){
         var xDiff, x, xIncr;
-        var endX = window.innerWidth - 50;
+        var endX = window.innerWidth - 65;
         var duration = noteData[i].duration;
         var cursorDiff = 256/duration;
-        if (i < noteData.length - 1) {
-            if (noteData[i].mX == 10 * scale * zoom || noteData[i].mX == 15 * scale * zoom) {
-                var xOffset = 55 * scale * zoom;
-            }
-            else {
-                xOffset = 30 * scale * zoom;
-            }
+        if (i == 0){
+            var xOffset = 50 * scale * zoom;
+            xDiff = ((noteData[i + 1].mX + noteData[i + 1].noteX) - (noteData[i].mX + noteData[i].noteX));
+            var position = noteData[i].mX + noteData[i].noteX + xOffset;
+        }
+        else if (i < noteData.length - 1) {
+            xOffset = 35 * scale * zoom;
             xDiff = ((noteData[i + 1].mX + noteData[i + 1].noteX) - (noteData[i].mX + noteData[i].noteX));
             var position = noteData[i].mX + noteData[i].noteX + xOffset;
         }
@@ -46,19 +46,21 @@ function cursorDraw() {
     getXValues();
     var i=0;
     (function iterate() {
-        var x = (xPos[i]).toString() + "px";
-        var cursorTime = (((60/86)*1000)/64);
-        var cursorCanvas = document.getElementById('positionMarker');
-        if (cursorCanvas) {
-            cursorCanvas.parentNode.removeChild(cursorCanvas);
+        if (i<xPos.length) {
+            var x = (xPos[i]).toString() + "px";
+            var cursorTime = (((60 / 86) * 1000) / 64);
+            var cursorCanvas = document.getElementById('positionMarker');
+            if (cursorCanvas) {
+                cursorCanvas.parentNode.removeChild(cursorCanvas);
+            }
+            var cursor = document.createElement('canvas');
+            cursor.id = 'positionMarker';
+            cursor.height = 85;
+            cursor.width = 4;
+            document.getElementById('viewer').appendChild(cursor);
+            document.getElementById('positionMarker').style.left = x;
+            setTimeout(iterate, cursorTime);
         }
-        var cursor = document.createElement('canvas');
-        cursor.id = 'positionMarker';
-        cursor.height = 85;
-        cursor.width = 4;
-        document.getElementById('viewer').appendChild(cursor);
-        document.getElementById('positionMarker').style.left = x;
-        setTimeout(iterate, cursorTime);
         i++;
     })();
 }
