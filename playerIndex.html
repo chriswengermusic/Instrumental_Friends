@@ -62,36 +62,45 @@
     <div class="row playerControls">
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 offset"></div>
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-            <div class="arrow-right" onclick="cursorDraw()"><a class="play" onclick="this.innerHTML = play(); cursorStart();">play</a></div>
+            <div class="arrow-right" onclick="cursorStart()"><a class="play" onclick="this.innerHTML = play(); cursorStart();">play</a></div>
         </div>
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 offset"></div>
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-            <div class="playerControls">Tempo:<div class="arrow-up" id="plusTempo" onclick=increaseTempo();></div><div class="spacer"></div>
+            <div class="playerControls">Tempo:
                 <div class="playerControls" id="tempoBox"><span id="showTempo" onchange="tempo = event.target.value;">86</span></div>
-                <div class="spacer"></div><div class="arrow-down" id="minusTempo" onclick=decreaseTempo();></div>
             </div>
         </div>
-        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 offset"></div>
+        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+            <div class="arrow-up" id="plusTempo" onclick=increaseTempo();></div><div class="spacer"></div>
+
+            <div class="spacer"></div><div class="arrow-down" id="minusTempo" onclick=decreaseTempo();></div>
+        </div>
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 offset"></div>
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-            <div class="playerControls">Piano:<div class="arrow-up" id="plusPiano" onclick=increasePiano();></div><div class="spacer"></div>
+            <div class="playerControls">Piano:
                 <div class="playerControls" id="pianoLevel"><span id="pLevel" onchange="pianoLevel = event.target.value;">8</span></div>
-                <div class="spacer"></div><div class="arrow-down" id="minusPiano" onclick=decreasePiano();></div>
             </div>
         </div>
-        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 offset"></div>
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-            <div class="playerControls">Drums:<div class="arrow-up" id="plusDrums" onclick=increaseDrums();></div><div class="spacer"></div>
+            <div class="arrow-up" id="plusPiano" onclick=increasePiano();></div><div class="spacer"></div>
+
+            <div class="spacer"></div><div class="arrow-down" id="minusPiano" onclick=decreasePiano();></div>
+        </div>
+        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+            <div class="playerControls">Drums:
                 <div class="playerControls" id="drumsLevel"><span id="dLevel" onchange="drumsLevel = event.target.value;">8</span></div>
-                <div class="spacer"></div><div class="arrow-down" id="minusDrums" onclick=decreaseDrums();></div>
             </div>
          </div>
-        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 offset"></div>
+        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+            <div class="arrow-up" id="plusDrums" onclick=increaseDrums();></div><div class="spacer"></div>
+
+            <div class="spacer"></div><div class="arrow-down" id="minusDrums" onclick=decreaseDrums();></div>
+        </div>
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 offset"></div>
     </div>
 </div>
 <script src="js/helperFunctions.js"></script>
-<script src="js/audioPlayer2.js"></script>
+<!--<script src="js/audioPlayer2.js"></script>-->
 <!--<script src="http://cwilso.github.io/AudioContext-MonkeyPatch/AudioContextMonkeyPatch.js"></script>--->
 <script>
 
