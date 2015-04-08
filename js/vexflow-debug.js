@@ -14514,13 +14514,14 @@ var zoom, scale;
 Vex.Flow.DocumentFormatter.Liquid = function(document) {
   if (arguments.length > 0) Vex.Flow.DocumentFormatter.call(this, document);
   this.width = 500; // default value
-  this.zoom = 0.8;
-  zoom = this.zoom;
+  this.zoom = window.innerWidth/1000;
   this.scale = 1.0;
+  zoom = this.zoom;
   scale = this.scale;
   if (typeof window.devicePixelRatio == "number"
       && window.devicePixelRatio > 1)
     this.scale = Math.floor(window.devicePixelRatio);
+
 }
 Vex.Flow.DocumentFormatter.Liquid.prototype = new Vex.Flow.DocumentFormatter();
 Vex.Flow.DocumentFormatter.Liquid.constructor
@@ -14655,7 +14656,7 @@ Vex.Flow.DocumentFormatter.Liquid.prototype.getStaveWidth = function(m, s) {
                 "Creating stave for measure which does not belong to a block");
   return this.measureWidth[m];
 }
-
+var canvasDims =[];
 Vex.Flow.DocumentFormatter.Liquid.prototype.draw = function(elem, options) {
   if (this._htmlElem != elem) {
     this._htmlElem = elem;
@@ -14686,6 +14687,7 @@ Vex.Flow.DocumentFormatter.Liquid.prototype.draw = function(elem, options) {
       canvas = document.createElement('canvas');
       canvas.width = width * this.scale;
       canvas.height = height * this.scale;
+      canvasDims.push({"width": canvas.width, "height": canvas.height});
       if (this.scale > 1) {
         canvas.style.width = width.toString() + "px";
         canvas.style.height = height.toString() + "px";
