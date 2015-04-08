@@ -1,9 +1,13 @@
 html, body {
     height: 100%;
     width: 100%;
-    font-variant-caps: petite-caps;
 }
 /*TODO: Media queries*/
+@media only screen and (max-width: 700px){
+    .offset{
+        display: none;
+    }
+}
 
 .container-fluid {
     height: 100%;
@@ -11,6 +15,7 @@ html, body {
     background: linear-gradient(36deg, #666666, #CCCCCC, #666666, #191919);
     border-radius: 10px;
     font-family: 'Comfortaa', cursive;
+    font-variant-caps: petite-caps;
     font-weight: 400;
 }
 
@@ -44,7 +49,7 @@ html, body {
 
 #notationViewer {
     position:relative;
-    height: 55%;
+    height: 75%;
 }
 
 #waitmsg {
@@ -55,7 +60,6 @@ html, body {
 
 #positionMarker {
     position: absolute;
-    top: 15px;
     background: #00FF00;
 }
 
@@ -68,11 +72,12 @@ html, body {
 }
 
 .empty {
-    height: 5%;
+    height: 2.5%;
 }
 
 .playerControls {
-    height: 40%;
+    text-align: center;
+    height: 25%;
     top: 60%;
 }
 
