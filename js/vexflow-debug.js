@@ -14418,7 +14418,6 @@ Vex.Flow.DocumentFormatter.prototype.drawPart =
       var mstartX = vfVoice.stave.x * scale * zoom;
       var noteX = vfVoice.tickables[k].tickContext.x * zoom * scale;
       noteData.push({"pitch": keys, "duration": dur, "mX": mstartX, "noteX": noteX, "ticks": ticks});
-
     }
 
     vfVoice.draw(context, vfVoice.stave); });
@@ -14428,7 +14427,7 @@ Vex.Flow.DocumentFormatter.prototype.drawPart =
 }
 
 //this is the global variable array which contains the note data for later use
-// console.log(noteData);
+console.log(noteData);
 
 // Options contains system_start, system_end for measure
 Vex.Flow.DocumentFormatter.prototype.drawMeasure =
@@ -14514,7 +14513,7 @@ var zoom, scale;
 Vex.Flow.DocumentFormatter.Liquid = function(document) {
   if (arguments.length > 0) Vex.Flow.DocumentFormatter.call(this, document);
   this.width = 500; // default value
-  this.zoom = window.innerWidth/1000;
+  this.zoom = 1.0;
   this.scale = 1.0;
   zoom = this.zoom;
   scale = this.scale;
@@ -14656,7 +14655,7 @@ Vex.Flow.DocumentFormatter.Liquid.prototype.getStaveWidth = function(m, s) {
                 "Creating stave for measure which does not belong to a block");
   return this.measureWidth[m];
 }
-var canvasDims =[];
+
 Vex.Flow.DocumentFormatter.Liquid.prototype.draw = function(elem, options) {
   if (this._htmlElem != elem) {
     this._htmlElem = elem;
@@ -14682,12 +14681,11 @@ Vex.Flow.DocumentFormatter.Liquid.prototype.draw = function(elem, options) {
     var canvas, context;
     var dims = this.blockDimensions[b];
     var width = Math.ceil(dims[0] * this.zoom);
-    var height = Math.ceil((dims[1] + 50) * this.zoom);
+    var height = Math.ceil(dims[1] * this.zoom);
     if (! this.canvases[b]) {
       canvas = document.createElement('canvas');
       canvas.width = width * this.scale;
       canvas.height = height * this.scale;
-      canvasDims.push({"width": canvas.width, "height": canvas.height});
       if (this.scale > 1) {
         canvas.style.width = width.toString() + "px";
         canvas.style.height = height.toString() + "px";
