@@ -66,6 +66,7 @@ html, body {
 #viewer {
     position: absolute;
     height: inherit;
+    overflow: hidden;
     background-color: #FFFFFF;
     border: 3px solid black;
     border-radius: 15px;
