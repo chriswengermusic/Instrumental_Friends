@@ -122,6 +122,36 @@ function setDrumVolume() {
     }
 }
 
+//TODO: Convert HipHop files to mp3, load House sounds, redefine beats (as arrays?)
+//TODO: enable final barlines and repeats in VexFlow/XML
+
+function loadedPiano(PIANO) {
+    Do1 = PIANO[0];
+    Fa1 = PIANO[1];
+    Sol1 = PIANO[2];
+    Ti2 = PIANO[3];
+    Do3 = PIANO[4];
+    Re3 = PIANO[5];
+    Mi3 = PIANO[6];
+    Fa3 = PIANO[7];
+    Sol3 = PIANO[8];
+    La3 = PIANO[9];
+}
+function loadedHipHop(HIPHOP) {
+    kick = HIPHOP[0];
+    kickLow = HIPHOP[1];
+    snare = HIPHOP[2];
+    clap = HIPHOP[3];
+    closedHat = HIPHOP[4];
+    openHat = HIPHOP[5];
+}
+function loadedBreakBeat(BREAKBEAT) {
+    breakKick = BREAKBEAT[0];
+    breakSnare = BREAKBEAT[1];
+    breakCHat = BREAKBEAT[2];
+    breakOHat = BREAKBEAT[3];
+}
+
 //get the cursor values from the noteData array (from the XMl/Vexflow) to draw the cursor
 var xPos = [];
 function getXValues(){
