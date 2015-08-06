@@ -65,7 +65,7 @@ var piano = [
     'audio/piano/mp3/Db5.mp3',
     'audio/piano/mp3/D5.mp3'
 ];
-var key = "C";
+var key = keySig;
 var Do, Re, Mi, Fa, Sol, La, Ti;
 var stepNums = [0, 5, 7, 23, 24, 26, 28, 29, 31, 33];
 var num;
@@ -164,9 +164,9 @@ var quarter = 0,
     half,
     whole,
     eighth;
-var numBeats = 4;
+var numBeats = meter;
 var measureTime = numBeats * quarter;
-var measureCount = 4;
+var measureCount = num_Measures;
 var viewer = document.getElementById('viewer');
 
 
@@ -199,7 +199,6 @@ function nextNote() {
     }
 
 }
-var beatNumber = 0;
 var repeatCount = true;
 var preRoll = numBeats * 4;
 var buffer;
@@ -555,8 +554,11 @@ function scheduleNote( beatNumber, time ) {
             }
 
         }
-    function draw(){
+    function draw() {
+        if (beatNumber - preRoll < xPos.length) {
         var x = (xPos[beatNumber - preRoll]).toString() + "px";
+        }
+        else{x = window.innerWidth.toString() + "px"};
         var cursorCanvas = document.getElementById('positionMarker');
         if (cursorCanvas) {
             cursorCanvas.parentNode.removeChild(cursorCanvas);

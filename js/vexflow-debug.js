@@ -1795,7 +1795,7 @@ Vex.Flow.Stave = (function() {
     },
 
     setEndBarType: function(type) {
-      // Repeat end not valid at end of stave
+      // Repeat begin not valid at end of stave
       if (type != Vex.Flow.Barline.type.REPEAT_BEGIN)
         this.modifiers[1] = new Vex.Flow.Barline(type, this.x + this.width);
       return this;
@@ -11226,9 +11226,9 @@ Vex.Flow.StaveText = (function() {
 //
 // ## Description
 //
-// A `BarNote` is used to render bar lines (from `barline.js`). `BarNote`s can
+// A `BarNote` is used to render bar lines (from `barline.js`). `BarNote's can
 // be added to a voice and rendered in the middle of a stave. Since it has no
-// duration, it consumes no `tick`s, and is dealt with appropriately by the formatter.
+// duration, it consumes no `tick's, and is dealt with appropriately by the formatter.
 //
 // See `tests/barnote_tests.js` for usage examples.
 
@@ -13249,6 +13249,11 @@ Vex.Flow.Measure.Stave = function(object) {
               "Stave object requires clef property");
   this.clef = object.clef;
   this.key = (typeof object.key == "string") ? object.key : null;
+  /*if (typeof object.barline != "string")
+    throw new Vex.RERR("InvalidIRError",
+              "Barline object requires barline property");
+  this.barline = object.barline;
+  console.log(typeof object.barline);*/
   this.modifiers = new Array();
   if (object.modifiers instanceof Array) {
     for (var i = 0; i < object.modifiers.length; i++)
@@ -13292,10 +13297,17 @@ Vex.Flow.Measure.Stave.prototype.addModifier = function(modifier) {
       newModifier.num_beats = modifier.num_beats;
       newModifier.beat_value = modifier.beat_value;
       break;
+    case "barline":
+      if( typeof modifier.barline != "string")
+        throw new Vex.RERR("InvalidRError",
+                          "Barline modifier requires barline string");
+      newModifier.barline = modifier.barline;
+      break;
     default:
       throw new Vex.RERR("InvalidIRError", "Modifier not recognized");
   }
   this.modifiers.push(newModifier);
+  //console.log(this.modifiers);
 }
 
 /**
@@ -13484,6 +13496,10 @@ Vex.Flow.Backend.MusicXML.prototype.parse = function(data) {
         this.measures[measureNum][partNum] = measure;
         var attributes = measure.getElementsByTagName("attributes")[0];
         if (attributes) this.parseAttributes(measureNum, partNum, attributes);
+        var barline = measure.getElementsByTagName("barline")[0];
+        var barStyle = measure.getElementsByTagName("bar-style")[0];
+        //console.log(barStyle);
+
         measureNum++;
       }
       // numStaves defaults to 1 for this part
@@ -13577,6 +13593,8 @@ Vex.Flow.Backend.MusicXML.prototype.getMeasure = function(m) {
         part.setStave(s, {clef: attrs.clef[s]});
     var numVoices = 1; // can expand dynamically
     var noteElems = this.measures[m][p].getElementsByTagName("note");
+    var barElem = this.measures[m][p].getElementsByTagName("barline");
+    //console.log(barElem);
     var voiceObjects = new Array(); // array of arrays
     var lastNote = null; // Hold on to last note in case there is a chord
     for (var i = 0; i < noteElems.length; i++) {
@@ -13619,7 +13637,8 @@ Vex.Flow.Backend.MusicXML.prototype.getMeasure = function(m) {
 
 Vex.Flow.Backend.MusicXML.prototype.getStaveConnectors =
   function() { return this.staveConnectors; }
-
+var meter;
+var keySig;
 Vex.Flow.Backend.MusicXML.prototype.parseAttributes =
   function(measureNum, partNum, attributes) {
   var attrs = attributes.childNodes;
@@ -13635,6 +13654,8 @@ Vex.Flow.Backend.MusicXML.prototype.parseAttributes =
       case "key":
         attrObject = this.fifthsToKey(parseInt(attr.getElementsByTagName(
                                                  "fifths")[0].textContent));
+         keySig = this.fifthsToKey(parseInt(attr.getElementsByTagName(
+             "fifths")[0].textContent));
         break;
       case "time":
         attrObject = (attr.getElementsByTagName("senza-misura").length > 0)
@@ -13646,6 +13667,8 @@ Vex.Flow.Backend.MusicXML.prototype.parseAttributes =
                                           "beat-type")[0].textContent),
           soft: true // XXX: Should we always have soft voices?
         };
+        meter = parseInt(attr.getElementsByTagName("beats")[0]
+            .textContent);
         break;
       case "clef":
         var number = parseInt(attr.getAttribute("number"));
@@ -13841,7 +13864,7 @@ Vex.Flow.Backend.MusicXML.prototype.getAttributes = function(m, p) {
 
   return attrs;
 }
-
+//TODO: Add transpositionFactor to key signature and pitches
 /**
  * Converts keys as fifths (e.g. -2 for Bb) to the equivalent major key ("Bb").
  * @param {Number} number of fifths from -7 to 7
@@ -13914,8 +13937,10 @@ Vex.Flow.Backend.IR.appearsValid = function(object) {
  *
  * @return {Number} Total number of measures
  */
+var num_Measures;
 Vex.Flow.Backend.IR.prototype.getNumberOfMeasures = function() {
   return this.documentObject.measures.length;
+  num_Measures = this.documentObject.measures.length;
 }
 
 /**
@@ -14165,6 +14190,7 @@ Vex.Flow.DocumentFormatter.prototype.createVexflowStave = function(s, x,y,w) {
                       + mod.beat_value.toString();
         vfStave.addTimeSignature(time_sig);
         break;
+      case "barline": vfStave.setEndBarType(mod.barline);break;
     }
   });
   if (typeof s.clef == "string") vfStave.clef = s.clef;
@@ -14427,7 +14453,7 @@ Vex.Flow.DocumentFormatter.prototype.drawPart =
 }
 
 //this is the global variable array which contains the note data for later use
-console.log(noteData);
+//console.log(noteData);
 
 // Options contains system_start, system_end for measure
 Vex.Flow.DocumentFormatter.prototype.drawMeasure =
