@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<filter>
+<filter-name>FilterServletAllowFrom</filter-name>
+<filter-class>com.iflex.fic.filters.FilterServlet</filter-class>
+<init-param>
+<param-name>AllowOrigin</param-name>
+<param-value><origin></param-value>
+</init-param>
+</filter>
 <!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
 <score-partwise version="3.0">
   <identification>
