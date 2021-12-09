@@ -4,7 +4,7 @@
 <filter-class>com.iflex.fic.filters.FilterServlet</filter-class>
 <init-param>
 <param-name>AllowOrigin</param-name>
-<param-value><origin></param-value>
+<param-value>'chriswengermusic.github.io'</param-value>
 </init-param>
 </filter>
 <!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
