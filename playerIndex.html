@@ -34,7 +34,7 @@
         $(document).ready(function() {
             var req = new XMLHttpRequest();
             var uri = getParameter('doc');
-            if (!uri) uri = 'Hot_Cross_Buns.xml';
+            if (!uri) uri = 'xml/Hot_Cross_Buns.xml';
             req.open('GET', uri, true);
             req.onreadystatechange = function() {
                 if (req.readyState != 4) return;
